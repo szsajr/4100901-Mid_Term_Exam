@@ -449,8 +449,6 @@ int main(void)
  8000532:	79fb      	ldrb	r3, [r7, #7]
  8000534:	2b03      	cmp	r3, #3
  8000536:	d9f1      	bls.n	800051c <main+0x2c>
-
-
 	  		 }
 	  		 HAL_GPIO_WritePin(L_LEFT_GPIO_Port, L_LEFT_Pin, 1);
  8000538:	2201      	movs	r2, #1

@@ -111,8 +111,6 @@ int main(void)
 	  		 for (uint8_t i=0; i<=3; i++){
 	  			 HAL_GPIO_TogglePin(L_LEFT_GPIO_Port, L_LEFT_Pin);
 	  			 HAL_Delay(250);
-
-
 	  		 }
 	  		 HAL_GPIO_WritePin(L_LEFT_GPIO_Port, L_LEFT_Pin, 1);
 
