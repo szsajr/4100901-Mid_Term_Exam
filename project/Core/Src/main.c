@@ -106,7 +106,7 @@ int main(void)
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-	  if (left_pressed !=0){
+	  if (left_pressed !=0){//defición de los boton derecho para que parpade 3 veces
 	  		 left_pressed=0;
 	  		 for (uint8_t i=0; i<=3; i++){
 	  			 HAL_GPIO_TogglePin(L_LEFT_GPIO_Port, L_LEFT_Pin);
@@ -122,7 +122,7 @@ int main(void)
 
 	  	  }
 
-	  	 if (right_pressed !=0){
+	  	 if (right_pressed !=0){//definición del boton izquierdo para que parpade 3 veces
 	  	 		 right_pressed=0;
 	  	 		 for (uint8_t i=0; i<=3; i++){
 	  	 			 HAL_GPIO_TogglePin(L_RIGHT_GPIO_Port, L_RIGHT_Pin);

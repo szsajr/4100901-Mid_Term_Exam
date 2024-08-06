@@ -422,7 +422,7 @@ int main(void)
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-	  if (left_pressed !=0){
+	  if (left_pressed !=0){//defición de los boton derecho para que parpade 3 veces
  8000506:	4b1e      	ldr	r3, [pc, #120]	@ (8000580 <main+0x90>)
  8000508:	f993 3000 	ldrsb.w	r3, [r3]
  800050c:	2b00      	cmp	r3, #0
@@ -460,7 +460,7 @@ int main(void)
 
 	  	  }
 
-	  	 if (right_pressed !=0){
+	  	 if (right_pressed !=0){//definición del boton izquierdo para que parpade 3 veces
  8000544:	4b0f      	ldr	r3, [pc, #60]	@ (8000584 <main+0x94>)
  8000546:	f993 3000 	ldrsb.w	r3, [r3]
  800054a:	2b00      	cmp	r3, #0
@@ -493,7 +493,7 @@ int main(void)
  8000576:	2140      	movs	r1, #64	@ 0x40
  8000578:	4803      	ldr	r0, [pc, #12]	@ (8000588 <main+0x98>)
  800057a:	f000 fd43 	bl	8001004 <HAL_GPIO_WritePin>
-	  if (left_pressed !=0){
+	  if (left_pressed !=0){//defición de los boton derecho para que parpade 3 veces
  800057e:	e7c2      	b.n	8000506 <main+0x16>
  8000580:	200000b0 	.word	0x200000b0
  8000584:	200000b1 	.word	0x200000b1
