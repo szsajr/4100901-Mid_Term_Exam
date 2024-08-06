@@ -40,21 +40,32 @@
 /* USER CODE END PM */
 
 /* Private variables ---------------------------------------------------------*/
+UART_HandleTypeDef huart2;
 
 /* USER CODE BEGIN PV */
-
+int8_t left_pressed=0;
+int8_t right_pressed=0;
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
 void SystemClock_Config(void);
 static void MX_GPIO_Init(void);
+static void MX_USART2_UART_Init(void);
 /* USER CODE BEGIN PFP */
 
 /* USER CODE END PFP */
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
-
+void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
+{
+	if (GPIO_Pin == BUTTON_LEFT_Pin){
+		left_pressed=1;
+	}
+	if (GPIO_Pin == BOTTON_RIGHT_Pin){
+			right_pressed=1;
+		}
+}
 /* USER CODE END 0 */
 
 /**
@@ -86,6 +97,7 @@ int main(void)
 
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
+  MX_USART2_UART_Init();
   /* USER CODE BEGIN 2 */
 
   /* USER CODE END 2 */
@@ -94,11 +106,43 @@ int main(void)
   /* USER CODE BEGIN WHILE */
   while (1)
   {
+	  if (left_pressed !=0){
+	  		 left_pressed=0;
+	  		 for (uint8_t i=0; i<=3; i++){
+	  			 HAL_GPIO_TogglePin(L_LEFT_GPIO_Port, L_LEFT_Pin);
+	  			 HAL_Delay(250);
 
+
+	  		 }
+	  		 HAL_GPIO_WritePin(L_LEFT_GPIO_Port, L_LEFT_Pin, 1);
+
+
+	  	  /* if (HAL_GPIO_ReadPin(BUTTON_LETF_GPIO_Port, BUTTON_LETF_Pin) !=0){
+	  		  HAL_GPIO_WritePin(L_LEFT_GPIO_Port, L_LEFT_Pin, 1);
+	  	  } else{
+	  		  HAL_GPIO_WritePin(L_LEFT_GPIO_Port, L_LEFT_Pin, 0);*/
+
+	  	  }
+
+	  	 if (right_pressed !=0){
+	  	 		 right_pressed=0;
+	  	 		 for (uint8_t i=0; i<=3; i++){
+	  	 			 HAL_GPIO_TogglePin(L_RIGHT_GPIO_Port, L_RIGHT_Pin);
+	  	 			 HAL_Delay(250);
+	  	 		 }
+	  	 		 HAL_GPIO_WritePin(L_RIGHT_GPIO_Port, L_RIGHT_Pin, 1);
+
+
+	  	 	  /* if (HAL_GPIO_ReadPin(BUTTON_LETF_GPIO_Port, BUTTON_LETF_Pin) !=0){
+	  	 		  HAL_GPIO_WritePin(L_LEFT_GPIO_Port, L_LEFT_Pin, 1);
+	  	 	  } else{
+	  	 		  HAL_GPIO_WritePin(L_LEFT_GPIO_Port, L_LEFT_Pin, 0);*/
+
+	  	 	  }
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
-  }
+	    }
   /* USER CODE END 3 */
 }
 
@@ -147,6 +191,41 @@ void SystemClock_Config(void)
 }
 
 /**
+  * @brief USART2 Initialization Function
+  * @param None
+  * @retval None
+  */
+static void MX_USART2_UART_Init(void)
+{
+
+  /* USER CODE BEGIN USART2_Init 0 */
+
+  /* USER CODE END USART2_Init 0 */
+
+  /* USER CODE BEGIN USART2_Init 1 */
+
+  /* USER CODE END USART2_Init 1 */
+  huart2.Instance = USART2;
+  huart2.Init.BaudRate = 115200;
+  huart2.Init.WordLength = UART_WORDLENGTH_8B;
+  huart2.Init.StopBits = UART_STOPBITS_1;
+  huart2.Init.Parity = UART_PARITY_NONE;
+  huart2.Init.Mode = UART_MODE_TX_RX;
+  huart2.Init.HwFlowCtl = UART_HWCONTROL_NONE;
+  huart2.Init.OverSampling = UART_OVERSAMPLING_16;
+  huart2.Init.OneBitSampling = UART_ONE_BIT_SAMPLE_DISABLE;
+  huart2.AdvancedInit.AdvFeatureInit = UART_ADVFEATURE_NO_INIT;
+  if (HAL_UART_Init(&huart2) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  /* USER CODE BEGIN USART2_Init 2 */
+
+  /* USER CODE END USART2_Init 2 */
+
+}
+
+/**
   * @brief GPIO Initialization Function
   * @param None
   * @retval None
@@ -169,7 +248,7 @@ static void MX_GPIO_Init(void)
 
   /*Configure GPIO pins : BUTTON_LEFT_Pin BOTTON_RIGHT_Pin */
   GPIO_InitStruct.Pin = BUTTON_LEFT_Pin|BOTTON_RIGHT_Pin;
-  GPIO_InitStruct.Mode = GPIO_MODE_IT_RISING;
+  GPIO_InitStruct.Mode = GPIO_MODE_IT_RISING_FALLING;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
 
@@ -186,6 +265,13 @@ static void MX_GPIO_Init(void)
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
   HAL_GPIO_Init(L_RIGHT_GPIO_Port, &GPIO_InitStruct);
+
+  /* EXTI interrupt init*/
+  HAL_NVIC_SetPriority(EXTI1_IRQn, 0, 0);
+  HAL_NVIC_EnableIRQ(EXTI1_IRQn);
+
+  HAL_NVIC_SetPriority(EXTI4_IRQn, 0, 0);
+  HAL_NVIC_EnableIRQ(EXTI4_IRQn);
 
 /* USER CODE BEGIN MX_GPIO_Init_2 */
 /* USER CODE END MX_GPIO_Init_2 */
